@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { encodePassword } from 'src/utils/bcrypt';
 import { userCreatedto } from './dto/userCreate.dto';
+
 
 @Injectable()
 export class UserService {
@@ -7,13 +9,14 @@ export class UserService {
 
 // Register user
     
-    createUser(userCreateDTO: userCreatedto) {
-        const { name, email, password } = userCreateDTO;
-        
+  async  createUser(userCreateDTO: userCreatedto) {
+
+        const { name, email,password } =  userCreateDTO;
+        const hashPassword = await encodePassword(password);
         return {
             name,
             email,
-            password
+            hashPassword
         }
         
     }
